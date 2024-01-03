@@ -1,6 +1,7 @@
 ﻿using APICourseUdemy.Data;
 using APICourseUdemy.Models;
 using APICourseUdemy.Repstory;
+using Microsoft.EntityFrameworkCore;
 
 namespace APICourseUdemy.Service
 {
@@ -11,13 +12,14 @@ namespace APICourseUdemy.Service
         {
             _context = context;
         }
-        public void addUser(AppUser user)
+        public async Task<bool> addUser(AppUser user)
         {
-            _context.appUsers.Add(user);
-            _context.SaveChanges();
+           await _context.appUsers.AddAsync(user);
+             await _context.SaveChangesAsync();
+            return true;
         }
 
-        public bool deleteUser(int id)
+        public async Task<bool> deleteUser(int id)
         {
            var user=_context.appUsers.Find(id);
             if(user==null) return false;
@@ -33,7 +35,7 @@ namespace APICourseUdemy.Service
             return user;
         }
 
-        public bool updateUser(AppUser user, int id)
+        public async Task<bool> updateUser(AppUser user, int id)
         {
             var userItem = _context.appUsers.Find(id);
             if(user==null) return false;  
@@ -42,9 +44,9 @@ namespace APICourseUdemy.Service
             return true;
         }
 
-        public IList<AppUser> users()
+        public async Task<IEnumerable<AppUser>> users()
         {
-            return _context.appUsers.ToList();
+            return await _context.appUsers.ToListAsync();
         }
     }
 }

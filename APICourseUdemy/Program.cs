@@ -12,11 +12,13 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("myConnection"));
 });
+builder.Services.AddCors();
 builder.Services.AddScoped<IUserRepstory, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
+app.UseCors(b=>b.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.UseHttpsRedirection();
 

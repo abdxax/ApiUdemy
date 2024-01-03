@@ -1,13 +1,14 @@
 ﻿using APICourseUdemy.Models;
+using System.Collections.Generic;
 
 namespace APICourseUdemy.Repstory
 {
     public interface IUserRepstory
     {
-         IList<AppUser> users();
-        void addUser(AppUser user);
-        AppUser getUser(int id);
-        bool updateUser(AppUser user,int id) ;
-        bool deleteUser(int id);
+         Task<IEnumerable<AppUser>> users();
+         Task<bool> addUser(AppUser user);
+         AppUser getUser(int id);
+         Task<bool> updateUser(AppUser user,int id) ;
+          Task<bool> deleteUser(int id);
     }
 }

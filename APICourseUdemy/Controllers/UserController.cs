@@ -4,6 +4,7 @@ using APICourseUdemy.Repstory;
 using APICourseUdemy.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace APICourseUdemy.Controllers
 {
@@ -12,22 +13,37 @@ namespace APICourseUdemy.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepstory _user;
+        private readonly AppDbContext _db;
+
 
         public UserController(AppDbContext db)
         {
-            _user = new UserService(db); ;
+            _user = new UserService(db);
+            _db = db;
         }
 
         [HttpGet("getUser")]
-        public IList<AppUser> users()
+        public async Task<IEnumerable<AppUser>> users()
         {
-            return _user.users();
+            // return await _user.users();
+            return await _db.appUsers.ToListAsync();
         }
         [HttpPost("addUser")]
-        public AppUser addUser(AppUser user)
+        public async Task<ActionResult<AppUser>> addUser(AppUser user)
         {
-            _user.addUser(user);
+           await _user.addUser(user);
             return user;
         }
+
+        [HttpGet("user/{id}")]
+        public ActionResult<AppUser> user(int id)
+        {
+            return _user.getUser(id);
+
+        }
+        //[HttpDelete("delete/{id}")]
+        //public 
+
+
     }
 }
