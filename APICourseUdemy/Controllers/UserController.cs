@@ -2,6 +2,7 @@
 using APICourseUdemy.Models;
 using APICourseUdemy.Repstory;
 using APICourseUdemy.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace APICourseUdemy.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserRepstory _user;
@@ -23,6 +25,7 @@ namespace APICourseUdemy.Controllers
         }
 
         [HttpGet("getUser")]
+        [AllowAnonymous]
         public async Task<IEnumerable<AppUser>> users()
         {
             // return await _user.users();
