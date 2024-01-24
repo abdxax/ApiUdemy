@@ -1,4 +1,5 @@
 using APICourseUdemy.Data;
+using APICourseUdemy.Extension;
 using APICourseUdemy.Interface;
 using APICourseUdemy.Repstory;
 using APICourseUdemy.Service;
@@ -12,26 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(option =>
-{
-    option.UseSqlServer(builder.Configuration.GetConnectionString("myConnection"));
-});
-builder.Services.AddCors();
-//Add Services
-builder.Services.AddScoped<IUserRepstory, UserService>();
-builder.Services.AddScoped<ITokenService,TokenService>();
+builder.Services.ApplicationService(builder.Configuration);
 
 //Authantion 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
-{
-    option.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
-        ValidateIssuer=false,
-        ValidateAudience=false,
-    };
-});
+builder.Services.AuthenticationServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
