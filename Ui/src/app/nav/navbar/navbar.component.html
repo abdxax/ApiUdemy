@@ -5,7 +5,8 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto" *ngIf="loggedIn">
+
       <li class="nav-item ">
         <a class="nav-link" href="#">Home </a>
       </li>
@@ -19,11 +20,27 @@
       <li class="nav-item">
         <a class="nav-link " href="#">Message</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link " href="#" (click)="logout()">Logout</a>
+      </li>
     </ul>
-    <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+    <div class="btn-group" dropdown *ngIf="loggedIn">
+      <button id="button-basic" dropdownToggle type="button" class="dropdown-toggle"
+              aria-controls="dropdown-basic">
+        Welcome User <span class="caret"></span>
+      </button>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" href="#">Profile</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
+
+      </ul>
+    </div>
+    <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off" *ngIf="!loggedIn">
       <input class="form-control mr-sm-2" type="text" placeholder="UserName" name="userName" [(ngModel)]="model.userName">
       <input class="form-control mr-sm-2" type="password" placeholder="Password" name="userName" [(ngModel)]="model.password">
       <button class="btn btn-info my-2 my-sm-0" type="submit">Login</button>
     </form>
+
   </div>
 </nav>
