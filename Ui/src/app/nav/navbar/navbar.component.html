@@ -5,7 +5,7 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto" *ngIf="loggedIn">
+    <ul class="navbar-nav mr-auto" *ngIf="currentUser$ | async">
 
       <li class="nav-item ">
         <a class="nav-link" href="#">Home </a>
@@ -24,7 +24,7 @@
         <a class="nav-link " href="#" (click)="logout()">Logout</a>
       </li>
     </ul>
-    <div class="btn-group" dropdown *ngIf="loggedIn">
+    <div class="btn-group" dropdown *ngIf="currentUser$ | async">
       <button id="button-basic" dropdownToggle type="button" class="dropdown-toggle"
               aria-controls="dropdown-basic">
         Welcome User <span class="caret"></span>
@@ -36,7 +36,7 @@
 
       </ul>
     </div>
-    <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off" *ngIf="!loggedIn">
+    <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off" *ngIf="!(currentUser$ | async)">
       <input class="form-control mr-sm-2" type="text" placeholder="UserName" name="userName" [(ngModel)]="model.userName">
       <input class="form-control mr-sm-2" type="password" placeholder="Password" name="userName" [(ngModel)]="model.password">
       <button class="btn btn-info my-2 my-sm-0" type="submit">Login</button>

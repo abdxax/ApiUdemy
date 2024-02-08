@@ -12,9 +12,9 @@ private currentluser=new BehaviorSubject<User|null>(null);
 curerntUser$=this.currentluser.asObservable();
   constructor(private http:HttpClient) { }
 
-  login(model:User){
+  login(model:any){
   return this.http.post<User>(this.baseURL+'account/login',model).pipe(
-    map((response:any)=>{
+    map((response:User)=>{
       const user=response;
       if(user){
         localStorage.setItem('user',JSON.stringify(user));
